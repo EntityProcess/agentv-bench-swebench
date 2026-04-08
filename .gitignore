@@ -5,3 +5,7 @@ node_modules/
 *.pyc
 __pycache__/
 .env
+
+# Downloaded skills (use scripts/setup-superpowers.sh)
+.claude/skills/
+.agents/skills/
