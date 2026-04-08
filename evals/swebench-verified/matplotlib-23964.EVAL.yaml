@@ -1,0 +1,25 @@
+description: "SWE-bench Verified: matplotlib__matplotlib-23964 - [Bug]: DPI setting"
+workspace:
+  docker:
+    image: "swebench/sweb.eval.x86_64.matplotlib__matplotlib-23964:latest"
+    timeout: 1800
+    memory: "4g"
+tests:
+  - id: matplotlib__matplotlib-23964
+    criteria: >
+      Fix the DPI setting bug in matplotlib where the figure DPI is not
+      correctly applied when saving figures.
+    input:
+      - role: user
+        content: |
+          Fix the following GitHub issue in the matplotlib/matplotlib repository:
+
+          **[Bug]: DPI of a figure is doubled after unpickling on M1 Mac**
+
+          After saving and loading a figure with pickle, the DPI is doubled
+          on M1 Mac systems. This appears to be related to the HiDPI handling.
+
+          Please fix this DPI issue.
+    assertions:
+      - type: code-grader
+        command: ["bash", "-c", "cd /workspace && python -m pytest lib/matplotlib/tests/test_figure.py -x -q 2>&1 | tail -5"]

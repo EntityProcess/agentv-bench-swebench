@@ -1,0 +1,25 @@
+description: "SWE-bench Verified: scikit-learn__scikit-learn-25570 - ColumnTransformer with pandas output"
+workspace:
+  docker:
+    image: "swebench/sweb.eval.x86_64.scikit-learn__scikit-learn-25570:latest"
+    timeout: 1800
+    memory: "4g"
+tests:
+  - id: scikit-learn__scikit-learn-25570
+    criteria: >
+      Fix the ColumnTransformer to correctly handle pandas DataFrame output
+      when set_output(transform="pandas") is used.
+    input:
+      - role: user
+        content: |
+          Fix the following issue in scikit-learn:
+
+          **ColumnTransformer with pandas output fails with remainder**
+
+          When using ColumnTransformer with set_output(transform="pandas") and
+          a remainder column, the transform fails with a column mismatch error.
+
+          Please fix this issue.
+    assertions:
+      - type: code-grader
+        command: ["bash", "-c", "cd /workspace && python -m pytest sklearn/compose/tests/test_column_transformer.py -x -q 2>&1 | tail -5"]

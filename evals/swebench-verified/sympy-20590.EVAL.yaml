@@ -1,0 +1,26 @@
+description: "SWE-bench Verified: sympy__sympy-20590 - Symbol assumptions"
+workspace:
+  docker:
+    image: "swebench/sweb.eval.x86_64.sympy__sympy-20590:latest"
+    timeout: 1800
+    memory: "4g"
+tests:
+  - id: sympy__sympy-20590
+    criteria: >
+      Fix the Symbol._check_assumptions issue where inconsistent assumptions are not
+      properly detected and raise errors.
+    input:
+      - role: user
+        content: |
+          Fix the following GitHub issue in the sympy/sympy repository:
+
+          **Symbol assumptions not properly checked**
+
+          When creating a Symbol with inconsistent assumptions, the behavior
+          is incorrect. The _check_assumptions method needs to properly validate
+          and raise errors for contradictory assumption sets.
+
+          Please fix this issue.
+    assertions:
+      - type: code-grader
+        command: ["bash", "-c", "cd /workspace && python -m pytest sympy/core/tests/test_symbol.py -x -q 2>&1 | tail -5"]

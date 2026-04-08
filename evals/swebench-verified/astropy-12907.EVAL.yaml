@@ -1,0 +1,35 @@
+description: "SWE-bench Verified: astropy__astropy-12907 - separability_matrix does not compute separability correctly for nested CompoundModels"
+workspace:
+  docker:
+    image: "swebench/sweb.eval.x86_64.astropy__astropy-12907:latest"
+    timeout: 1800
+    memory: "4g"
+tests:
+  - id: astropy__astropy-12907
+    criteria: >
+      Fix the separability_matrix function in astropy.modeling.separable to correctly
+      handle nested CompoundModels. The current implementation fails when models are
+      nested more than one level deep.
+    input:
+      - role: user
+        content: |
+          Fix the following GitHub issue in the astropy/astropy repository:
+
+          **Modeling's `separability_matrix` does not compute separability correctly for nested CompoundModels**
+
+          Consider the following code:
+          ```python
+          from astropy.modeling import models as m
+          from astropy.modeling.separable import separability_matrix
+
+          cm = m.Linear1D(10) & m.Linear1D(5)
+          ```
+
+          `separability_matrix(cm)` returns the correct result but
+          `separability_matrix(m.Pix2Sky_TAN() & cm)` does not compute correctly
+          for the nested compound model.
+
+          Please fix this bug.
+    assertions:
+      - type: code-grader
+        command: ["bash", "-c", "cd /workspace && python -m pytest astropy/modeling/tests/test_separable.py -x -q 2>&1 | tail -5"]
