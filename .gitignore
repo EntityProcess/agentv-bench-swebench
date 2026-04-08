@@ -1,0 +1,7 @@
+.agentv/results/
+.agentv/run-cache.json
+.agentv/transcripts/
+node_modules/
+*.pyc
+__pycache__/
+.env

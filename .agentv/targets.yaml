@@ -1,0 +1,10 @@
+targets:
+  claude:
+    provider: claude
+    model: claude-sonnet-4-6
+  claude-opus:
+    provider: claude
+    model: claude-opus-4-6
+  codex:
+    provider: codex
+    model: o3

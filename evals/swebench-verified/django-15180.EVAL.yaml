@@ -1,0 +1,28 @@
+description: "SWE-bench Verified: django__django-15180 - Constraint check does not include OR conditions"
+workspace:
+  docker:
+    image: "swebench/sweb.eval.x86_64.django__django-15180:latest"
+    timeout: 1800
+    memory: "4g"
+tests:
+  - id: django__django-15180
+    criteria: >
+      Resolve the GitHub issue: Constraint check does not include OR conditions.
+      The CheckConstraint's _check method should handle Q objects that combine
+      conditions with OR, not just AND.
+    input:
+      - role: user
+        content: |
+          Fix the following GitHub issue in the Django repository:
+
+          **Constraint check does not include OR conditions**
+
+          When using CheckConstraint with Q objects that use OR conditions,
+          the constraint check incorrectly evaluates. The _check method in
+          django/db/models/constraints.py only handles AND combinations.
+
+          Please fix this issue and ensure the constraint check properly
+          handles OR conditions in Q objects.
+    assertions:
+      - type: code-grader
+        command: ["bash", "-c", "cd /workspace && git diff HEAD > /dev/null 2>&1 && python -m pytest tests/constraints/tests.py -x -q"]
